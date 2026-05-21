@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="Fuga da Guilhotina - Um desafio matemático onde você deve resolver equações para salvar o personagem da guilhotina!">
+    <title>Fuga da Guilhotina: O Desafio Matemático</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Poppins:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&family=MedievalSharp&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- ÁUDIO TOGGLE -->
+        <button id="btn-audio" class="btn-audio" aria-label="Alternar Áudio">🔊</button>
+        <!-- ===== BACKGROUND SCENERY ===== -->
+        <div id="bg-scenery">
+            <div id="bg-image"></div>
+            <div id="bg-fog"></div>
+            <div id="bg-overlay"></div>
+        </div>
+
+        <!-- ===== TORCHES ===== -->
+        <div class="torch torch-left" id="torch-left">
+            <div class="torch-bracket"></div>
+            <div class="torch-stick"></div>
+            <div class="torch-wrap"></div>
+            <div class="flame-container">
+                <div class="flame flame-core"></div>
+                <div class="flame flame-mid"></div>
+                <div class="flame flame-outer"></div>
+                <div class="ember ember-1"></div>
+                <div class="ember ember-2"></div>
+                <div class="ember ember-3"></div>
+            </div>
+            <div class="torch-glow"></div>
+        </div>
+        <div class="torch torch-right" id="torch-right">
+            <div class="torch-bracket"></div>
+            <div class="torch-stick"></div>
+            <div class="torch-wrap"></div>
+            <div class="flame-container">
+                <div class="flame flame-core"></div>
+                <div class="flame flame-mid"></div>
+                <div class="flame flame-outer"></div>
+                <div class="ember ember-1"></div>
+                <div class="ember ember-2"></div>
+                <div class="ember ember-3"></div>
+            </div>
+            <div class="torch-glow"></div>
+        </div>
+
+        <!-- Particles layer -->
+        <div id="particles-container"></div>
+
+        <!-- ===== START SCREEN ===== -->
+        <div id="start-screen" class="screen active">
+            <div class="start-content">
+                <div class="title-wrapper">
+                    <div class="title-icon">⚔️</div>
+                    <h1 class="game-title">Fuga da<br><span class="title-highlight">Guilhotina</span></h1>
+                    <p class="game-subtitle">O Desafio Matemático</p>
+                </div>
+                <div class="start-info">
+                    <div class="info-card">
+                        <span class="info-icon">🧮</span>
+                        <span>Resolva equações</span>
+                    </div>
+                    <div class="info-card">
+                        <span class="info-icon">⏱️</span>
+                        <span>A lâmina desce!</span>
+                    </div>
+                    <div class="info-card">
+                        <span class="info-icon">🏆</span>
+                        <span>Bata seu recorde</span>
+                    </div>
+                </div>
+                <button id="btn-play" class="btn-play" aria-label="Iniciar jogo">
+                    <span class="btn-play-text">JOGAR</span>
+                    <span class="btn-play-icon">▶</span>
+                </button>
+                <p class="high-score-display" id="start-high-score"></p>
+            </div>
+        </div>
+
+        <!-- ===== GAME SCREEN ===== -->
+        <div id="game-screen" class="screen">
+            <!-- HUD -->
+            <div id="hud">
+                <div class="hud-item" id="hud-score">
+                    <span class="hud-label">PONTOS</span>
+                    <span class="hud-value" id="score-display">0</span>
+                </div>
+                <div class="hud-item" id="hud-streak">
+                    <span class="hud-label">COMBO</span>
+                    <span class="hud-value" id="streak-display">x0</span>
+                </div>
+                <div class="hud-item" id="hud-level">
+                    <span class="hud-label">NÍVEL</span>
+                    <span class="hud-value" id="level-display">1</span>
+                </div>
+            </div>
+
+            <!-- Guillotine Area -->
+            <div id="guillotine-area">
+                <div id="guillotine-frame">
+                    <!-- Iron chain from ceiling -->
+                    <div class="ceiling-chain"></div>
+
+                    <!-- Top beam with iron reinforcements -->
+                    <div class="top-beam">
+                        <div class="beam-iron-band beam-iron-left"></div>
+                        <div class="beam-iron-band beam-iron-right"></div>
+                        <div class="beam-nail beam-nail-1"></div>
+                        <div class="beam-nail beam-nail-2"></div>
+                        <div class="beam-nail beam-nail-3"></div>
+                        <div class="beam-nail beam-nail-4"></div>
+                    </div>
+
+                    <!-- Left post with iron brackets -->
+                    <div class="post post-left">
+                        <div class="wood-grain"></div>
+                        <div class="iron-bracket bracket-top"></div>
+                        <div class="iron-bracket bracket-mid"></div>
+                        <div class="iron-bracket bracket-bottom"></div>
+                    </div>
+
+                    <!-- Right post with iron brackets -->
+                    <div class="post post-right">
+                        <div class="wood-grain"></div>
+                        <div class="iron-bracket bracket-top"></div>
+                        <div class="iron-bracket bracket-mid"></div>
+                        <div class="iron-bracket bracket-bottom"></div>
+                    </div>
+
+                    <!-- Pulley mechanism at top -->
+                    <div class="pulley-system">
+                        <div class="pulley">
+                            <div class="pulley-wheel">
+                                <div class="pulley-axle"></div>
+                                <div class="pulley-spoke spoke-1"></div>
+                                <div class="pulley-spoke spoke-2"></div>
+                            </div>
+                            <div class="pulley-mount"></div>
+                        </div>
+                    </div>
+
+                    <!-- Ropes (anchored at top, height set by JS) -->
+                    <div id="rope-system">
+                        <div class="blade-rope rope-main" id="rope-main"></div>
+                        <div class="blade-rope rope-left" id="rope-left"></div>
+                        <div class="blade-rope rope-right" id="rope-right"></div>
+                    </div>
+
+                    <!-- Blade assembly (moves down, ropes are separate) -->
+                    <div id="blade-assembly">
+                        <div class="blade-housing">
+                            <div class="blade-weight"></div>
+                            <div class="blade">
+                                <div class="blade-rust blade-rust-1"></div>
+                                <div class="blade-rust blade-rust-2"></div>
+                                <div class="blade-shine"></div>
+                                <div class="blade-edge"></div>
+                            </div>
+                            <div class="blade-bolt blade-bolt-left"></div>
+                            <div class="blade-bolt blade-bolt-right"></div>
+                        </div>
+                    </div>
+
+                    <!-- Character -->
+                    <div id="character">
+                        <div class="char-head">
+                            <div class="char-hair"></div>
+                            <div class="char-face">
+                                <div class="char-eye char-eye-left" id="char-eye-left">
+                                    <div class="char-pupil"></div>
+                                </div>
+                                <div class="char-eye char-eye-right" id="char-eye-right">
+                                    <div class="char-pupil"></div>
+                                </div>
+                                <div class="char-mouth" id="char-mouth"></div>
+                                <div class="char-sweat" id="char-sweat"></div>
+                            </div>
+                        </div>
+                        <div class="char-body">
+                            <div class="char-neck-hole"></div>
+                        </div>
+                    </div>
+
+                    <!-- Base / Lunette with iron reinforcements -->
+                    <div class="guillotine-base">
+                        <div class="base-iron-band"></div>
+                        <div class="lunette">
+                            <div class="lunette-iron"></div>
+                        </div>
+                        <div class="base-nail base-nail-1"></div>
+                        <div class="base-nail base-nail-2"></div>
+                        <div class="base-nail base-nail-3"></div>
+                        <div class="base-nail base-nail-4"></div>
+                    </div>
+
+                    <!-- Platform / scaffold -->
+                    <div class="scaffold-platform"></div>
+                </div>
+                <!-- Danger indicator -->
+                <div id="danger-glow"></div>
+            </div>
+
+            <!-- Question Area -->
+            <div id="question-area">
+                <div id="question-box">
+                    <div class="parchment-corner corner-tl"></div>
+                    <div class="parchment-corner corner-tr"></div>
+                    <div class="parchment-corner corner-bl"></div>
+                    <div class="parchment-corner corner-br"></div>
+                    <span id="question-text">2 + 2 = ?</span>
+                </div>
+                <div id="answers-grid">
+                    <button class="btn-answer" id="answer-0" data-index="0">4</button>
+                    <button class="btn-answer" id="answer-1" data-index="1">5</button>
+                    <button class="btn-answer" id="answer-2" data-index="2">3</button>
+                    <button class="btn-answer" id="answer-3" data-index="3">6</button>
+                </div>
+            </div>
+
+            <!-- Feedback overlays -->
+            <div id="feedback-correct" class="feedback-overlay">✓ CORRETO!</div>
+            <div id="feedback-wrong" class="feedback-overlay">✗ ERRADO!</div>
+            <div id="screen-flash"></div>
+        </div>
+
+        <!-- ===== GAME OVER SCREEN ===== -->
+        <div id="gameover-screen" class="screen">
+            <div class="gameover-content">
+                <div class="gameover-icon">💀</div>
+                <h2 class="gameover-title">GAME OVER</h2>
+                <p class="gameover-subtitle">A lâmina desceu...</p>
+                <div class="gameover-stats">
+                    <div class="stat-card">
+                        <span class="stat-value" id="final-score">0</span>
+                        <span class="stat-label">Pontuação</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="final-level">1</span>
+                        <span class="stat-label">Nível</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="final-streak">0</span>
+                        <span class="stat-label">Melhor Combo</span>
+                    </div>
+                </div>
+                <p class="new-record-badge" id="new-record" style="display:none;">🏆 NOVO RECORDE! 🏆</p>
+                <p class="high-score-text" id="gameover-high-score"></p>
+                <button id="btn-retry" class="btn-play" aria-label="Jogar novamente">
+                    <span class="btn-play-text">JOGAR DE NOVO</span>
+                    <span class="btn-play-icon">↻</span>
+                </button>
+                <button id="btn-menu" class="btn-secondary" aria-label="Voltar ao menu">MENU PRINCIPAL</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
